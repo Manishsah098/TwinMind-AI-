@@ -1,0 +1,4 @@
+item_id,item_name,quantity,unit_cost_usd,reorder_point,stockout_risk
+INV-01,Server Compute Units,120,400,30,0.02
+INV-02,API Gateway License Allocation,5000,10,1000,0.01
+INV-03,Edge Simulation Nodes,450,150,100,0.03

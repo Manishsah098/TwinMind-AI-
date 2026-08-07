@@ -1,0 +1,6 @@
+deal_id,customer_id,deal_stage,value,close_probability,sales_rep
+DEAL-101,CUST-001,Closed Won,150000,1.0,Sarah Connor
+DEAL-102,CUST-002,Closed Won,117600,1.0,John Matrix
+DEAL-103,CUST-003,Negotiation,45000,0.75,Ellen Ripley
+DEAL-104,CUST-005,Proposal,18000,0.50,Sarah Connor
+DEAL-105,CUST-007,Qualified,25000,0.30,John Matrix

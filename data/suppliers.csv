@@ -1,0 +1,4 @@
+supplier_id,supplier_name,category,contract_value,lead_time_days,risk_rating
+SUP-01,CloudScale Infrastructure,Cloud Hosting,450000,1,Low
+SUP-02,NeuralCompute AI Services,LLM API,250000,0,Low
+SUP-03,Global Data Centers,Colocation,120000,14,Medium

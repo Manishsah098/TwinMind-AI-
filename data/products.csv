@@ -1,0 +1,4 @@
+product_id,product_name,category,monthly_price,cost_per_user,active_subscribers
+PROD-01,Enterprise Decision Engine,Software,500,45,420
+PROD-02,TwinMind Business Suite,Software,200,20,8200
+PROD-03,Digital Twin Analytics Light,Software,49,5,41380

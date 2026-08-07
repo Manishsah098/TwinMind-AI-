@@ -1,0 +1,6 @@
+employee_id,department,role,salary_usd,performance_score
+EMP-001,Engineering,Principal AI Architect,190000,4.9
+EMP-002,Sales,VP of Enterprise Sales,175000,4.8
+EMP-003,Marketing,Growth Marketing Lead,135000,4.6
+EMP-004,Operations,Head of Infrastructure,155000,4.7
+EMP-005,HR,Talent Acquisition Manager,110000,4.5

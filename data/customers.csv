@@ -1,0 +1,9 @@
+customer_id,name,segment,monthly_spend,join_date,churn_risk,nps
+CUST-001,Acme Corp,Enterprise,12500,2022-01-15,0.05,9
+CUST-002,GlobalLogistics LLC,Enterprise,9800,2022-03-20,0.08,8
+CUST-003,Apex Solutions,SMB,1200,2023-05-10,0.22,7
+CUST-004,Vortex Media,SMB,850,2023-08-11,0.18,8
+CUST-005,Pulse Retail,SMB,1500,2023-11-01,0.35,6
+CUST-006,Starlight Inc,Enterprise,15000,2021-09-04,0.04,10
+CUST-007,Nexus Health,SMB,950,2024-01-19,0.15,9
+CUST-008,Nova Dynamics,SMB,1100,2024-02-28,0.25,6
