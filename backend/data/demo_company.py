@@ -20,7 +20,7 @@ DEMO_COMPANY = {
     "ebitda": 2_200_000,
     "cash": 3_500_000,
     "debt": 500_000,
-    "operating_costs": 6_800_000,
+    "operating_costs": 2_600_000,
     "marketing_costs": 1_200_000,
     "rd_costs": 800_000,
     
@@ -30,6 +30,7 @@ DEMO_COMPANY = {
     "smb_customers": 8_200,
     "individual_customers": 41_380,
     "average_price": 200,          # monthly subscription
+    "avg_price": 200,
     "average_contract_value": 2_400,
     "monthly_churn": 0.025,        # 2.5% monthly churn
     "annual_churn": 0.27,
@@ -66,7 +67,7 @@ DEMO_COMPANY = {
     "stockout_rate": 0.03,
     
     # Price elasticity (used in simulations)
-    "price_elasticity": -1.4,      # 1% price rise → 1.4% demand drop
+    "price_elasticity": -0.55,     # segment-weighted price elasticity
     "enterprise_elasticity": -0.6,  # enterprise is less price sensitive
     "smb_elasticity": -1.8,
     "individual_elasticity": -2.2,

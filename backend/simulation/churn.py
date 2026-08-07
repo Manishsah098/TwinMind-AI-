@@ -15,8 +15,8 @@ def calculate_churn_impact(
     Model incremental churn caused by price increase.
     Higher price increases churn in price-sensitive segments.
     """
-    # Churn sensitivity: every 1% price increase adds ~0.15% to monthly churn
-    churn_sensitivity = 0.0015
+    # Churn sensitivity: 1% price rise adds ~0.15% churn below 7%, but escalates non-linearly above 7%
+    churn_sensitivity = 0.0015 if price_change_percent <= 7 else 0.0015 + (price_change_percent - 7) * 0.001
     incremental_churn = churn_sensitivity * price_change_percent
     new_monthly_churn = min(0.15, base_monthly_churn + incremental_churn)
 

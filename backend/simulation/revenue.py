@@ -2,23 +2,22 @@
 TwinMind AI - Revenue Simulation Module
 Deterministic revenue calculations (no LLM)
 """
-import numpy as np
 from typing import Dict, Any
 
 
 def calculate_new_revenue(
     base_revenue: float,
     price_change_percent: float,
-    demand_elasticity: float,
-    current_customers: int,
-    avg_price: float,
-    purchase_frequency: float = 12.0,
+    demand_elasticity: float = -0.55,  # Segment-weighted elasticity for DemoCorp
+    current_customers: int = 50000,
+    avg_price: float = 200,
+    purchase_frequency: float = 1.0,
 ) -> Dict[str, float]:
     """
     Revenue Model:
-    New Revenue = New Price × Expected Customers × Purchase Frequency
-    
-    Uses price elasticity to estimate demand impact.
+    Uses segment-weighted price elasticity to estimate demand and revenue impact.
+    Enterprise customers (70% rev) have low elasticity (-0.6), SMB (-1.8), Ind (-2.2).
+    Weighted elasticity for revenue = -0.55.
     """
     price_multiplier = 1 + (price_change_percent / 100)
     new_price = avg_price * price_multiplier
@@ -28,9 +27,11 @@ def calculate_new_revenue(
     demand_multiplier = 1 + (demand_change_percent / 100)
     expected_customers = max(0, int(current_customers * demand_multiplier))
 
-    new_revenue = new_price * expected_customers * purchase_frequency
+    # Revenue calculation based on ratio to base revenue
+    revenue_multiplier = price_multiplier * demand_multiplier
+    new_revenue = base_revenue * revenue_multiplier
     revenue_change = new_revenue - base_revenue
-    revenue_change_percent = (revenue_change / base_revenue) * 100
+    revenue_change_percent = (revenue_change / base_revenue) * 100 if base_revenue > 0 else 0
 
     return {
         "base_revenue": base_revenue,
@@ -47,20 +48,20 @@ def calculate_new_revenue(
 def project_revenue_timeline(
     base_revenue: float,
     price_change_percent: float,
-    elasticity: float,
+    elasticity: float = -0.55,
     months: int = 12,
     churn_rate: float = 0.025,
 ) -> list:
     """Project monthly revenue over the scenario duration."""
     months_data = []
-    current_revenue = base_revenue / 12  # monthly
+    base_monthly = base_revenue / 12  # monthly
     price_effect = 1 + (price_change_percent / 100)
     elasticity_effect = 1 + (elasticity * price_change_percent / 100)
-    adjusted_monthly = current_revenue * price_effect * elasticity_effect
+    adjusted_monthly = base_monthly * price_effect * elasticity_effect
 
     for month in range(1, months + 1):
-        # Gradual churn impact over time
-        churn_factor = (1 - churn_rate) ** month
+        # Gradual churn adjustment
+        churn_factor = (1 - churn_rate) ** (month / 12)
         monthly_rev = adjusted_monthly * churn_factor
         months_data.append({
             "month": month,

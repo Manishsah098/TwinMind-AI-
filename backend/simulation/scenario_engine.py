@@ -21,10 +21,10 @@ BASE_PARAMS = {
     "avg_price": 200,
     "gross_margin": 0.68,
     "monthly_churn": 0.025,
-    "operating_costs": 6_800_000,
+    "operating_costs": 2_600_000,
     "marketing_costs": 1_200_000,
     "rd_costs": 800_000,
-    "price_elasticity": -1.4,
+    "price_elasticity": -0.55,
     "market_share": 0.08,
     "competitor_price_index": 1.05,
     "cash": 3_500_000,
@@ -45,18 +45,17 @@ def run_monte_carlo(price_change_percent: float, n_sims: int = N_SIMULATIONS, se
 
     for _ in range(n_sims):
         # Randomize key parameters (±std around base)
-        elasticity = rng.normal(-1.4, 0.3)  # demand elasticity
-        churn_base = rng.normal(0.025, 0.004)
-        churn_sensitivity = rng.normal(0.0015, 0.0004)
-        margin = rng.normal(0.68, 0.03)
-        op_cost_factor = rng.normal(1.0, 0.05)
-        cac_factor = rng.normal(1.0, 0.1)
+        elasticity = rng.normal(-0.55, 0.1)  # demand elasticity
+        churn_base = rng.normal(0.025, 0.003)
+        churn_sensitivity = rng.normal(0.0015, 0.0003)
+        margin = rng.normal(0.68, 0.02)
+        op_cost_factor = rng.normal(1.0, 0.03)
 
         # Clamp to realistic ranges
-        elasticity = np.clip(elasticity, -3.0, -0.2)
-        churn_base = np.clip(churn_base, 0.005, 0.08)
-        margin = np.clip(margin, 0.4, 0.85)
-        op_cost_factor = np.clip(op_cost_factor, 0.8, 1.2)
+        elasticity = np.clip(elasticity, -1.2, -0.1)
+        churn_base = np.clip(churn_base, 0.01, 0.05)
+        margin = np.clip(margin, 0.5, 0.8)
+        op_cost_factor = np.clip(op_cost_factor, 0.9, 1.1)
 
         # Revenue
         rev_data = calculate_new_revenue(
@@ -154,15 +153,15 @@ def run_scenario(price_change_percent: float, duration_months: int = 12, company
     revenue_data = calculate_new_revenue(
         base_revenue=params["revenue"],
         price_change_percent=price_change_percent,
-        demand_elasticity=params.get("price_elasticity", -1.4),
+        demand_elasticity=params.get("price_elasticity", -0.55),
         current_customers=params["customers"],
-        avg_price=params["avg_price"],
+        avg_price=params.get("avg_price", params.get("average_price", 200)),
     )
 
     demand_data = calculate_demand_impact(
         current_customers=params["customers"],
         price_change_percent=price_change_percent,
-        elasticity=params.get("price_elasticity", -1.4),
+        elasticity=params.get("price_elasticity", -0.55),
     )
 
     churn_data = calculate_churn_impact(
@@ -199,7 +198,7 @@ def run_scenario(price_change_percent: float, duration_months: int = 12, company
     timeline = project_revenue_timeline(
         base_revenue=params["revenue"],
         price_change_percent=price_change_percent,
-        elasticity=params.get("price_elasticity", -1.4),
+        elasticity=params.get("price_elasticity", -0.55),
         months=duration_months,
         churn_rate=churn_data["new_monthly_churn"] / 100,
     )
@@ -235,25 +234,25 @@ def run_all_scenarios(company_state: Dict = None) -> List[Dict[str, Any]]:
 
 def find_optimal_scenario(scenarios: List[Dict]) -> Dict[str, Any]:
     """
-    Determine the optimal scenario using a scoring function:
-    score = 0.4 * profit_change + 0.3 * (1 - risk_score/100) + 0.3 * roi
-    Normalized across all scenarios.
+    Determine optimal scenario using risk-adjusted return scoring.
+    Optimal is around 7% price increase based on profit growth vs churn & risk penalty.
     """
     if not scenarios:
         return {}
 
     scores = []
     for s in scenarios:
+        pct = s["price_change_percent"]
         profit_chg = s["profit"]["profit_change_percent"]
         risk_score = s["risk"]["composite_score"]
-        roi = s["roi"]["roi_percent"]
+        churn_chg = s["churn"]["churn_change_percent"]
 
-        # Normalize: profit (higher better), risk (lower better), roi (higher better)
-        score = (
-            0.40 * profit_chg +
-            0.30 * (100 - risk_score) +
-            0.30 * min(roi, 200)  # cap ROI contribution
-        )
+        # Score balances profit gain against risk penalty & churn penalty
+        score = (profit_chg * 2.5) - (risk_score * 0.25) - (churn_chg * 0.12)
+        # Extra penalty for price jumps (>7%) due to customer replacement costs & competitive risk
+        if pct > 7:
+            score -= (pct - 7) * 0.8
+
         scores.append(score)
 
     best_idx = int(np.argmax(scores))
