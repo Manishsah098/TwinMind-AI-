@@ -3,8 +3,8 @@
  * Interactive React Flow visualization of DemoCorp's business graph
  */
 import { useEffect, useState, useCallback } from 'react'
-import ReactFlow, {
-  MiniMap, Controls, Background,
+import {
+  ReactFlow, MiniMap, Controls, Background,
   useNodesState, useEdgesState, addEdge,
   Handle, Position
 } from '@xyflow/react'
