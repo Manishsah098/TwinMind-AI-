@@ -1,7 +1,7 @@
 /**
- * TwinMind AI - Header Bar
+ * TwinMind AI - Header Bar (Clean Professional Light)
  */
-import { Clock, ShieldCheck, Zap, Activity } from 'lucide-react'
+import { Clock, ShieldCheck } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function Header({ title, subtitle }) {
@@ -13,29 +13,29 @@ export default function Header({ title, subtitle }) {
   }, [])
 
   return (
-    <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-dark-900/60 backdrop-blur-xl flex-shrink-0 relative z-10">
+    <header className="h-16 border-b border-slate-200 flex items-center justify-between px-8 bg-white/90 backdrop-blur-md flex-shrink-0 relative z-10 shadow-sm">
       <div>
-        <h1 className="text-base font-bold text-white tracking-tight">{title}</h1>
-        {subtitle && <p className="text-xs text-slate-400 font-medium">{subtitle}</p>}
+        <h1 className="text-base font-bold text-slate-900 tracking-tight">{title}</h1>
+        {subtitle && <p className="text-xs text-slate-500 font-medium">{subtitle}</p>}
       </div>
 
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 text-slate-400 text-xs font-mono bg-white/3 px-3 py-1.5 rounded-lg border border-white/5">
-          <Clock size={13} className="text-cyan-400" />
+      <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2 text-slate-600 text-xs font-mono bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-semibold">
+          <Clock size={13} className="text-blue-600" />
           <span>{time.toLocaleTimeString()}</span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20">
-          <ShieldCheck size={14} />
+        <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
+          <ShieldCheck size={14} className="text-emerald-600" />
           <span>Monte Carlo Engine Live</span>
         </div>
 
-        <div className="flex items-center gap-3 border-l border-white/10 pl-5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-indigo-600 flex items-center justify-center text-xs font-extrabold text-white shadow-glow-cyan">
+        <div className="flex items-center gap-3 border-l border-slate-200 pl-5">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-xs font-extrabold text-white shadow-md">
             CEO
           </div>
           <div className="hidden sm:block">
-            <div className="text-xs font-bold text-white">Executive View</div>
+            <div className="text-xs font-bold text-slate-900">Executive View</div>
             <div className="text-[10px] text-slate-500 font-medium">DemoCorp HQ</div>
           </div>
         </div>

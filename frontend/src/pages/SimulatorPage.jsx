@@ -1,5 +1,5 @@
 /**
- * TwinMind AI - Scenario Simulator Page
+ * TwinMind AI - Scenario Simulator Page (Clean Professional Light)
  */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -18,15 +18,15 @@ const DEMO_QUESTIONS = [
 ]
 
 const AGENT_INFO = {
-  'Scenario Manager': { color: 'text-slate-400', desc: 'Generating baseline & comparison scenarios...' },
-  'Finance':          { color: 'text-cyan-400',   desc: 'Calculating gross margin & profit impact...' },
-  'Sales':            { color: 'text-indigo-400', desc: 'Analyzing pipeline conversion & win rate...' },
-  'Marketing':        { color: 'text-purple-400', desc: 'Modeling price elasticity & churn risk...' },
-  'HR':               { color: 'text-sky-400',    desc: 'Evaluating hiring & training costs...' },
-  'Supply Chain':     { color: 'text-teal-400',   desc: 'Assessing vendor risk & infra savings...' },
-  'Inventory':        { color: 'text-emerald-400', desc: 'Calculating safety stock requirements...' },
-  'Risk':             { color: 'text-amber-400',  desc: 'Computing composite risk score (0-100)...' },
-  'Executive':        { color: 'text-rose-400',   desc: 'Synthesizing final executive recommendation...' },
+  'Scenario Manager': { color: 'text-slate-600', desc: 'Generating baseline & comparison scenarios...' },
+  'Finance':          { color: 'text-blue-600',   desc: 'Calculating gross margin & profit impact...' },
+  'Sales':            { color: 'text-indigo-600', desc: 'Analyzing pipeline conversion & win rate...' },
+  'Marketing':        { color: 'text-purple-600', desc: 'Modeling price elasticity & churn risk...' },
+  'HR':               { color: 'text-sky-600',    desc: 'Evaluating hiring & training costs...' },
+  'Supply Chain':     { color: 'text-teal-600',   desc: 'Assessing vendor risk & infra savings...' },
+  'Inventory':        { color: 'text-emerald-600', desc: 'Calculating safety stock requirements...' },
+  'Risk':             { color: 'text-amber-600',  desc: 'Computing composite risk score (0-100)...' },
+  'Executive':        { color: 'text-rose-600',   desc: 'Synthesizing final executive recommendation...' },
 }
 
 function AgentRow({ name, status }) {
@@ -37,18 +37,18 @@ function AgentRow({ name, status }) {
 
   return (
     <div className={`flex items-center gap-4 py-3 px-4 rounded-xl border transition-all ${
-      isRunning ? 'bg-cyan-500/10 border-cyan-500/30 shadow-glow-cyan' :
-      isCompleted ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-white/2 border-white/5 opacity-60'
+      isRunning ? 'bg-blue-50 border-blue-300 shadow-sm' :
+      isCompleted ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-200 opacity-70'
     }`}>
       <div className="flex-shrink-0">
-        {isCompleted && <CheckCircle2 size={18} className="text-emerald-400" />}
-        {isRunning && <div className="w-4 h-4 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />}
-        {isFailed && <AlertTriangle size={18} className="text-rose-400" />}
-        {!status && <div className="w-4 h-4 rounded-full border border-slate-600" />}
+        {isCompleted && <CheckCircle2 size={18} className="text-emerald-600" />}
+        {isRunning && <div className="w-4 h-4 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />}
+        {isFailed && <AlertTriangle size={18} className="text-rose-600" />}
+        {!status && <div className="w-4 h-4 rounded-full border border-slate-400" />}
       </div>
       <div className="flex-1">
-        <div className={`text-sm font-bold ${info.color || 'text-slate-300'}`}>{name} Agent</div>
-        {isRunning && <div className="text-xs text-slate-400 mt-0.5">{info.desc}</div>}
+        <div className={`text-sm font-bold ${info.color || 'text-slate-700'}`}>{name} Agent</div>
+        {isRunning && <div className="text-xs text-slate-500 mt-0.5">{info.desc}</div>}
       </div>
       <span className={`badge ${
         isCompleted ? 'badge-success' :
@@ -84,7 +84,7 @@ export default function SimulatorPage() {
   const isRunning = sim.status === 'running' || sim.status === 'creating'
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-dark-950 bg-radial-glow">
+    <div className="flex-1 flex flex-col min-h-0 bg-slate-50">
       <Header title="Scenario Simulator" subtitle="Enter a high-impact business decision to simulate outcomes" />
 
       <div className="flex-1 overflow-auto p-8">
@@ -94,12 +94,12 @@ export default function SimulatorPage() {
           <div className="glass-card-accent p-8 relative overflow-hidden">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-600">
                   <Brain size={22} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Ask TwinMind AI</h3>
-                  <p className="text-xs text-slate-400">Natural language decision simulation</p>
+                  <h3 className="text-lg font-bold text-slate-900">Ask TwinMind AI</h3>
+                  <p className="text-xs text-slate-500 font-medium">Natural language decision simulation</p>
                 </div>
               </div>
               <span className="badge badge-info">1,000 Monte Carlo Runs</span>
@@ -107,7 +107,7 @@ export default function SimulatorPage() {
 
             {/* Input Field */}
             <div className="decision-input-wrapper mb-6">
-              <Sparkles size={20} className="text-cyan-400 flex-shrink-0" />
+              <Sparkles size={20} className="text-blue-600 flex-shrink-0" />
               <input
                 className="decision-input-field"
                 placeholder="What happens if we increase product price by 10%?"
@@ -119,10 +119,10 @@ export default function SimulatorPage() {
 
             {/* Controls Slider */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-dark-900/80 p-4 rounded-xl border border-white/5">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2 font-semibold">
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div className="flex items-center justify-between text-xs text-slate-600 mb-2 font-bold">
                   <span className="flex items-center gap-1.5"><Sliders size={14} /> Price Change Percent</span>
-                  <span className={`font-mono text-base font-extrabold ${priceInput > 0 ? 'text-cyan-400' : 'text-rose-400'}`}>
+                  <span className={`font-mono text-base font-extrabold ${priceInput > 0 ? 'text-blue-600' : 'text-rose-600'}`}>
                     {priceInput > 0 ? '+' : ''}{priceInput}%
                   </span>
                 </div>
@@ -133,12 +133,12 @@ export default function SimulatorPage() {
                   step={1}
                   value={priceInput}
                   onChange={(e) => setPriceInput(Number(e.target.value))}
-                  className="w-full accent-cyan-400"
+                  className="w-full accent-blue-600"
                 />
               </div>
 
-              <div className="bg-dark-900/80 p-4 rounded-xl border border-white/5">
-                <label className="text-xs text-slate-400 font-semibold mb-2 block">Simulation Duration</label>
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <label className="text-xs text-slate-600 font-bold mb-2 block">Simulation Duration</label>
                 <select className="form-input text-sm">
                   <option value={12}>12 Months Forecast</option>
                   <option value={6}>6 Months Forecast</option>
@@ -155,7 +155,7 @@ export default function SimulatorPage() {
                   <button
                     key={q.pct}
                     onClick={() => handleDemoQuestion(q)}
-                    className="text-xs font-semibold px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
+                    className="text-xs font-bold px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-blue-600 hover:border-blue-300 transition-all shadow-sm"
                   >
                     {q.pct > 0 ? '+' : ''}{q.pct}% Price Scenario
                   </button>
@@ -185,10 +185,10 @@ export default function SimulatorPage() {
 
           {/* Execution Progress */}
           {isRunning && (
-            <div className="glass-card p-6 space-y-5 animate-fade-in">
+            <div className="glass-card p-6 space-y-5">
               <div className="flex items-center justify-between">
-                <div className="text-sm font-bold text-white">Multi-Agent Execution Pipeline</div>
-                <span className="text-sm font-mono font-extrabold text-cyan-400">{Math.round(sim.progress)}%</span>
+                <div className="text-sm font-bold text-slate-900">Multi-Agent Execution Pipeline</div>
+                <span className="text-sm font-mono font-extrabold text-blue-600">{Math.round(sim.progress)}%</span>
               </div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{ width: `${sim.progress}%` }} />
@@ -203,26 +203,26 @@ export default function SimulatorPage() {
 
           {/* Results Completed */}
           {sim.status === 'completed' && (
-            <div className="glass-card p-6 space-y-5 animate-fade-in">
+            <div className="glass-card p-6 space-y-5">
               <div className="flex items-center gap-3">
-                <CheckCircle2 size={22} className="text-emerald-400" />
+                <CheckCircle2 size={22} className="text-emerald-600" />
                 <div>
-                  <h4 className="text-base font-bold text-white">Simulation Completed</h4>
-                  <p className="text-xs text-slate-400">8 specialized AI agents & 1,000 Monte Carlo runs finished</p>
+                  <h4 className="text-base font-bold text-slate-900">Simulation Completed</h4>
+                  <p className="text-xs text-slate-500 font-medium">8 specialized AI agents & 1,000 Monte Carlo runs finished</p>
                 </div>
                 <span className="badge badge-success ml-auto">8/8 Agents Done</span>
               </div>
 
               {sim.finalRecommendation && (
                 <div className="recommendation-card p-6">
-                  <div className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Executive Recommendation</div>
-                  <div className="text-xl font-extrabold text-white mb-2">
+                  <div className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Executive Recommendation</div>
+                  <div className="text-xl font-extrabold text-slate-900 mb-2">
                     {sim.finalRecommendation.recommended_action}
                   </div>
-                  <div className="flex items-center gap-4 text-xs font-semibold text-slate-300">
-                    <span>Confidence: <span className="text-emerald-400 font-bold">{((sim.finalRecommendation.confidence || 0) * 100).toFixed(0)}%</span></span>
-                    <span>Risk Rating: <span className="text-amber-400 font-bold">{sim.finalRecommendation.risk_category}</span></span>
-                    <span>ROI: <span className="text-cyan-400 font-bold">{sim.finalRecommendation.expected_roi?.toFixed(0)}%</span></span>
+                  <div className="flex items-center gap-4 text-xs font-semibold text-slate-700">
+                    <span>Confidence: <span className="text-emerald-600 font-bold">{((sim.finalRecommendation.confidence || 0) * 100).toFixed(0)}%</span></span>
+                    <span>Risk Rating: <span className="text-amber-600 font-bold">{sim.finalRecommendation.risk_category}</span></span>
+                    <span>ROI: <span className="text-blue-600 font-bold">{sim.finalRecommendation.expected_roi?.toFixed(0)}%</span></span>
                   </div>
                 </div>
               )}
@@ -239,8 +239,8 @@ export default function SimulatorPage() {
           )}
 
           {sim.status === 'failed' && (
-            <div className="glass-card p-6 border-rose-500/30">
-              <div className="flex items-center gap-3 text-rose-400">
+            <div className="glass-card p-6 border-rose-200 bg-rose-50">
+              <div className="flex items-center gap-3 text-rose-700">
                 <AlertTriangle size={20} />
                 <span className="text-sm font-bold">Simulation Exception: {sim.error}</span>
               </div>

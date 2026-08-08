@@ -1,5 +1,5 @@
 /**
- * TwinMind AI - Digital Twin Page
+ * TwinMind AI - Digital Twin Page (Clean Professional Light)
  */
 import { useEffect, useState, useCallback } from 'react'
 import {
@@ -10,19 +10,18 @@ import {
 import '@xyflow/react/dist/style.css'
 import Header from '../components/Layout/Header'
 import { getDigitalTwin } from '../services/api'
-import { Network, Layers, Sparkles } from 'lucide-react'
+import { Network } from 'lucide-react'
 
-// Custom node styling
 const NODE_COLORS = {
-  company:    { border: '#22d3ee', bg: 'rgba(6,182,212,0.15)', text: '#22d3ee' },
-  finance:    { border: '#818cf8', bg: 'rgba(99,102,241,0.15)', text: '#818cf8' },
-  sales:      { border: '#34d399', bg: 'rgba(16,185,129,0.15)', text: '#34d399' },
-  marketing:  { border: '#c084fc', bg: 'rgba(168,85,247,0.15)', text: '#c084fc' },
-  hr:         { border: '#38bdf8', bg: 'rgba(14,165,233,0.15)', text: '#38bdf8' },
-  operations: { border: '#2dd4bf', bg: 'rgba(20,184,166,0.15)', text: '#2dd4bf' },
-  inventory:  { border: '#4ade80', bg: 'rgba(74,222,128,0.15)', text: '#4ade80' },
-  suppliers:  { border: '#fb923c', bg: 'rgba(251,146,60,0.15)', text: '#fb923c' },
-  customers:  { border: '#f472b6', bg: 'rgba(244,114,182,0.15)', text: '#f472b6' },
+  company:    { border: '#2563eb', bg: 'rgba(37,99,235,0.08)',  text: '#1e40af' },
+  finance:    { border: '#4f46e5', bg: 'rgba(79,70,229,0.08)',  text: '#3730a3' },
+  sales:      { border: '#059669', bg: 'rgba(5,150,105,0.08)',  text: '#065f46' },
+  marketing:  { border: '#7c3aed', bg: 'rgba(124,58,237,0.08)', text: '#5b21b6' },
+  hr:         { border: '#0284c7', bg: 'rgba(2,132,199,0.08)',  text: '#075985' },
+  operations: { border: '#0d9488', bg: 'rgba(13,148,136,0.08)', text: '#115e59' },
+  inventory:  { border: '#16a34a', bg: 'rgba(22,163,74,0.08)',  text: '#14532d' },
+  suppliers:  { border: '#d97706', bg: 'rgba(217,119,6,0.08)',  text: '#92400e' },
+  customers:  { border: '#db2777', bg: 'rgba(219,39,119,0.08)', text: '#9d174d' },
 }
 
 function TwinNode({ data, selected }) {
@@ -32,26 +31,31 @@ function TwinNode({ data, selected }) {
   return (
     <div
       style={{
-        background: colors.bg,
-        border: `2px solid ${selected ? colors.border : colors.border + '80'}`,
+        background: selected ? colors.bg : '#ffffff',
+        border: `2px solid ${selected ? colors.border : colors.border + '60'}`,
         borderRadius: isCompany ? 16 : 12,
         padding: isCompany ? '16px 24px' : '12px 18px',
         minWidth: isCompany ? 160 : 130,
-        boxShadow: selected ? `0 0 25px ${colors.border}60` : '0 4px 20px rgba(0,0,0,0.4)',
+        boxShadow: selected
+          ? `0 8px 24px ${colors.border}30`
+          : '0 2px 8px rgba(0,0,0,0.06)',
         transition: 'all 0.25s ease',
         cursor: 'pointer',
       }}
     >
-      <Handle type="target" position={Position.Top} style={{ background: colors.border, border: 'none', width: 8, height: 8 }} />
-      <div style={{ color: colors.text, fontWeight: isCompany ? 800 : 700, fontSize: isCompany ? 15 : 13, marginBottom: 4 }}>
+      <Handle type="target" position={Position.Top}
+        style={{ background: colors.border, border: '2px solid white', width: 10, height: 10 }} />
+      <div style={{ color: colors.text, fontWeight: isCompany ? 800 : 700,
+        fontSize: isCompany ? 15 : 13, marginBottom: 4 }}>
         {data.label}
       </div>
       {data.kpis && Object.entries(data.kpis).slice(0, 2).map(([k, v]) => (
-        <div key={k} style={{ fontSize: 11, color: '#d1d5db', marginTop: 2, fontWeight: 500 }}>
-          <span style={{ color: '#9ca3af' }}>{k}: </span>{v}
+        <div key={k} style={{ fontSize: 11, color: '#64748b', marginTop: 2, fontWeight: 600 }}>
+          <span style={{ color: '#94a3b8' }}>{k}: </span>{v}
         </div>
       ))}
-      <Handle type="source" position={Position.Bottom} style={{ background: colors.border, border: 'none', width: 8, height: 8 }} />
+      <Handle type="source" position={Position.Bottom}
+        style={{ background: colors.border, border: '2px solid white', width: 10, height: 10 }} />
     </div>
   )
 }
@@ -71,16 +75,16 @@ const DEMO_NODES = [
 ]
 
 const DEMO_EDGES = [
-  { id: 'e1', source: 'company', target: 'finance', type: 'smoothstep', animated: true },
-  { id: 'e2', source: 'company', target: 'sales', type: 'smoothstep', animated: true },
-  { id: 'e3', source: 'company', target: 'marketing', type: 'smoothstep', animated: true },
-  { id: 'e4', source: 'company', target: 'hr', type: 'smoothstep', animated: true },
-  { id: 'e5', source: 'company', target: 'operations', type: 'smoothstep', animated: true },
-  { id: 'e6', source: 'sales', target: 'customers', type: 'smoothstep', animated: true },
-  { id: 'e7', source: 'marketing', target: 'customers', type: 'smoothstep', animated: true },
-  { id: 'e8', source: 'operations', target: 'inventory', type: 'smoothstep', animated: true },
-  { id: 'e9', source: 'operations', target: 'suppliers', type: 'smoothstep', animated: true },
-  { id: 'e10', source: 'suppliers', target: 'inventory', type: 'smoothstep', animated: false },
+  { id: 'e1', source: 'company', target: 'finance', type: 'smoothstep', animated: true, style: { stroke: '#2563eb80', strokeWidth: 2 } },
+  { id: 'e2', source: 'company', target: 'sales', type: 'smoothstep', animated: true, style: { stroke: '#2563eb80', strokeWidth: 2 } },
+  { id: 'e3', source: 'company', target: 'marketing', type: 'smoothstep', animated: true, style: { stroke: '#2563eb80', strokeWidth: 2 } },
+  { id: 'e4', source: 'company', target: 'hr', type: 'smoothstep', animated: true, style: { stroke: '#2563eb80', strokeWidth: 2 } },
+  { id: 'e5', source: 'company', target: 'operations', type: 'smoothstep', animated: true, style: { stroke: '#2563eb80', strokeWidth: 2 } },
+  { id: 'e6', source: 'sales', target: 'customers', type: 'smoothstep', animated: true, style: { stroke: '#05996980', strokeWidth: 2 } },
+  { id: 'e7', source: 'marketing', target: 'customers', type: 'smoothstep', animated: true, style: { stroke: '#7c3aed80', strokeWidth: 2 } },
+  { id: 'e8', source: 'operations', target: 'inventory', type: 'smoothstep', animated: true, style: { stroke: '#0d948880', strokeWidth: 2 } },
+  { id: 'e9', source: 'operations', target: 'suppliers', type: 'smoothstep', animated: true, style: { stroke: '#0d948880', strokeWidth: 2 } },
+  { id: 'e10', source: 'suppliers', target: 'inventory', type: 'smoothstep', animated: false, style: { stroke: '#d9770680', strokeWidth: 2 } },
 ]
 
 export default function DigitalTwinPage() {
@@ -108,14 +112,15 @@ export default function DigitalTwinPage() {
   }, [])
 
   const selectedKpis = selectedNode ? (kpis[selectedNode.id] || selectedNode.data?.kpis || {}) : null
+  const selColors = selectedNode ? (NODE_COLORS[selectedNode.data?.nodeType] || NODE_COLORS.company) : null
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-dark-950">
+    <div className="flex-1 flex flex-col min-h-0 bg-slate-50">
       <Header title="Digital Twin Graph" subtitle="Interactive DemoCorp Business Ecosystem — Click nodes to examine live KPIs" />
 
-      <div className="flex-1 flex gap-0 overflow-hidden">
+      <div className="flex-1 flex overflow-hidden">
         {/* Canvas */}
-        <div className="flex-1 relative" style={{ background: '#030712' }}>
+        <div className="flex-1 relative">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -126,45 +131,50 @@ export default function DigitalTwinPage() {
             fitView
             fitViewOptions={{ padding: 0.3 }}
           >
-            <Background color="#1a2336" gap={32} size={1.5} />
+            <Background color="#e2e8f0" gap={28} size={1.5} />
             <Controls style={{ bottom: 20, right: 20 }} />
             <MiniMap
-              nodeColor={(n) => NODE_COLORS[n.data?.nodeType]?.border || '#334155'}
-              style={{ background: 'rgba(11,15,25,0.95)', bottom: 20, left: 20, borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)' }}
+              nodeColor={(n) => NODE_COLORS[n.data?.nodeType]?.border || '#94a3b8'}
+              style={{
+                background: '#ffffff',
+                bottom: 20, left: 20,
+                borderRadius: 12,
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.06)'
+              }}
             />
           </ReactFlow>
         </div>
 
         {/* Side Panel */}
-        <div className="w-72 border-l border-white/5 bg-dark-900 p-6 overflow-auto flex-shrink-0">
+        <div className="w-72 border-l border-slate-200 bg-white p-6 overflow-auto flex-shrink-0 shadow-inner">
           {selectedNode ? (
-            <div className="space-y-4 animate-fade-in">
-              <div className="flex items-center gap-2">
-                <Layers size={16} className="text-cyan-400" />
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                  {selectedNode.data?.label} Node
-                </span>
+            <div className="space-y-4">
+              <div>
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Selected Node</div>
+                <div className="text-lg font-extrabold text-slate-900"
+                  style={{ color: selColors?.text }}>{selectedNode.data?.label}</div>
               </div>
               <div className="space-y-3">
                 {Object.entries(selectedKpis).map(([k, v]) => (
-                  <div key={k} className="metric-card py-3 px-4">
+                  <div key={k} className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3">
                     <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">{k}</div>
-                    <div className="text-lg font-extrabold text-white mt-1">{v}</div>
+                    <div className="text-lg font-extrabold text-slate-900 mt-0.5">{v}</div>
                   </div>
                 ))}
               </div>
             </div>
           ) : (
-            <div className="text-center py-16 text-slate-500">
+            <div className="text-center py-16 text-slate-400">
               <Network size={32} className="mx-auto mb-3 opacity-40" />
-              <p className="text-sm font-semibold">Select Node</p>
-              <p className="text-xs mt-1">Click any graph node to inspect live enterprise KPIs</p>
+              <p className="text-sm font-semibold text-slate-600">Select a Node</p>
+              <p className="text-xs mt-1 text-slate-400">Click any graph node to inspect live enterprise KPIs</p>
             </div>
           )}
 
           {/* Legend */}
-          <div className="mt-8 pt-6 border-t border-white/5">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Enterprise Domains</div>
+          <div className="mt-8 pt-6 border-t border-slate-100">
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Enterprise Domains</div>
             {Object.entries(NODE_COLORS).map(([type, { border, text }]) => (
               <div key={type} className="flex items-center gap-2.5 mb-2">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: border }} />
